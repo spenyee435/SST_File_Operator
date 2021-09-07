@@ -1,3 +1,4 @@
+# SST File Operator
 To first run the SST file functions, you must first install RocksDB. 
 ```
 git clone https://github.com/facebook/rocksdb.git 
