@@ -1,45 +1,32 @@
-# SST_File_Operator
-Creation of SST FIle Operation using RocksDB
+## RocksDB: A Persistent Key-Value Store for Flash and RAM Storage
 
-To first run the SST file functions, you must first install RocksDB. 
-```
-git clone https://github.com/facebook/rocksdb.git 
-cd rocksdb/ 
-export LD_LIBRARY_PATH=/usr/local/lib
-make all
-```
-Dependencies:
-```
-sudo apt-get install libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev
-```
-Afterwards, using any of the SST file operators, you can test and create your own SST file to run using RocksDB. 
+[![CircleCI Status](https://circleci.com/gh/facebook/rocksdb.svg?style=svg)](https://circleci.com/gh/facebook/rocksdb)
+[![TravisCI Status](https://api.travis-ci.com/facebook/rocksdb.svg?branch=main)](https://travis-ci.com/github/facebook/rocksdb)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/fbgfu0so3afcno78/branch/main?svg=true)](https://ci.appveyor.com/project/Facebook/rocksdb/branch/main)
+[![PPC64le Build Status](http://140-211-168-68-openstack.osuosl.org:8080/buildStatus/icon?job=rocksdb&style=plastic)](http://140-211-168-68-openstack.osuosl.org:8080/job/rocksdb)
 
-Inside the Rocksdb directory
-```
-mkdir SST_Operations
-cd SST_Operations
-vim sstfile1.cc
-```
-Inside the rocksdb directory, you must first open the SST file and choose what operation to test or use.
-```
-Status s = sst_file_writer.Open(file_path);
-```
-After completing the creation of your SST file, end the operation by closing the file. 
-```
-s = sst_file_writer.Finish();
-```
-To compile the code, use the following commands:
-```
-g++ -c -I./include -std=c++11 “filename”.cc
-g++ -o “filename” “filename”.o -L. -lrocksdb -lsnappy -lpthread -lbz2 -lz -lrt
- ```
-Then to run the your SST file operators, type:
-```
-./”filename”
-```
-To benchmark the performance of the system, run perf stat both on the regular SST File operations and once again perform perf stat on the SSD simulated device.
+RocksDB is developed and maintained by Facebook Database Engineering Team.
+It is built on earlier work on [LevelDB](https://github.com/google/leveldb) by Sanjay Ghemawat (sanjay@google.com)
+and Jeff Dean (jeff@google.com)
 
-Inside the rocksdb directory with your SST file operator, use the command:
-```
-perf stat ./”filename” 
-```
+This code is a library that forms the core building block for a fast
+key-value server, especially suited for storing data on flash drives.
+It has a Log-Structured-Merge-Database (LSM) design with flexible tradeoffs
+between Write-Amplification-Factor (WAF), Read-Amplification-Factor (RAF)
+and Space-Amplification-Factor (SAF). It has multi-threaded compactions,
+making it especially suitable for storing multiple terabytes of data in a
+single database.
+
+Start with example usage here: https://github.com/facebook/rocksdb/tree/main/examples
+
+See the [github wiki](https://github.com/facebook/rocksdb/wiki) for more explanation.
+
+The public interface is in `include/`.  Callers should not include or
+rely on the details of any other header files in this package.  Those
+internal APIs may be changed without warning.
+
+Design discussions are conducted in https://www.facebook.com/groups/rocksdb.dev/ and https://rocksdb.slack.com/
+
+## License
+
+RocksDB is dual-licensed under both the GPLv2 (found in the COPYING file in the root directory) and Apache 2.0 License (found in the LICENSE.Apache file in the root directory).  You may select, at your option, one of the above-listed licenses.
